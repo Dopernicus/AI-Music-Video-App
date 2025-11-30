@@ -1,41 +1,60 @@
 #!/usr/bin/env sh
 
-# -------------------------------------------------------------
-# Gradle wrapper script for POSIX environments
-# -------------------------------------------------------------
+##############################################################################
+##
+##  Gradle start up script for POSIX environments
+##
+##############################################################################
 
 APP_NAME="Gradle"
-APP_BASE_NAME=$(basename "$0")
+APP_BASE_NAME=`basename "$0"`
 
 # Resolve the location of the script
 PRG="$0"
 while [ -h "$PRG" ] ; do
-  ls=$(ls -ld "$PRG")
-  link=$(expr "$ls" : '.*-> \(.*\)$')
-  if expr "$link" : '/.*' > /dev/null; then
-    PRG="$link"
-  else
-    PRG=$(dirname "$PRG")"/$link"
-  fi
+    ls=`ls -ld "$PRG"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+        PRG="$link"
+    else
+        PRG=`dirname "$PRG"`"/$link"
+    fi
 done
-SAVED=$(pwd)
-cd "$(dirname "$PRG")" >/dev/null
-APP_HOME=$(pwd -P)
+
+SAVED="`pwd`"
+cd "`dirname \"$PRG\"`/" >/dev/null
+APP_HOME="`pwd -P`"
 cd "$SAVED" >/dev/null
 
-CLASSPATH="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
+CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
-# Default JVM options
+# Default JVM options:
 DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
 
-# Determine Java binary
+# Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
-  JAVA_CMD="$JAVA_HOME/bin/java"
+    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
+        # IBM's JDK on AIX uses strange locations for the executables
+        JAVACMD="$JAVA_HOME/jre/sh/java"
+    else
+        JAVACMD="$JAVA_HOME/bin/java"
+    fi
+    if [ ! -x "$JAVACMD" ] ; then
+        echo "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME" >&2
+        exit 1
+    fi
 else
-  JAVA_CMD="java"
+    JAVACMD="java"
 fi
 
-exec "$JAVA_CMD" \
+# Stop when JAVA_HOME is not set and no Java executable is found
+if ! command -v "$JAVACMD" >/dev/null 2>&1 ; then
+    echo "ERROR: Java not found — please install JDK." >&2
+    exit 1
+fi
+
+# Execute Gradle
+exec "$JAVACMD" \
   $DEFAULT_JVM_OPTS \
   $JAVA_OPTS \
   $GRADLE_OPTS \
