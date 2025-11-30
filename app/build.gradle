@@ -77,3 +77,4 @@ dependencies {
 
     // Video processing helper
     implementation "com.arthenica:mobile-ffmpeg-full:4.4"
+}
