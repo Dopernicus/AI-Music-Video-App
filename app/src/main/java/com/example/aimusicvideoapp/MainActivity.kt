@@ -3,68 +3,84 @@ package com.example.aimusicvideoapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.aimusicvideoapp.ui.theme.AIMusicVideoAppTheme
+import androidx.lifecycle.lifecycleScope
+import com.example.aimusicvideoapp.ui.theme.AIMusicVideoTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // File picker launcher
-        val pickAudio = registerForActivityResult(
-            ActivityResultContracts.GetContent()
-        ) { uri -> selectedAudioUri = uri }
-
         setContent {
-            AIMusicVideoAppTheme {
-                var prompt by remember { mutableStateOf("") }
-                var status by remember { mutableStateOf("Idle") }
-
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    Column(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-
-                        OutlinedTextField(
-                            value = prompt,
-                            onValueChange = { prompt = it },
-                            label = { Text("Enter video prompt") },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        Button(
-                            onClick = { pickAudio.launch("audio/*") },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("Choose Audio File")
+            AIMusicVideoTheme {
+                AppUI(
+                    onGenerate = { prompt ->
+                        lifecycleScope.launch {
+                            VideoGenerator.generate(prompt)
                         }
-
-                        Button(
-                            onClick = {
-                                status = "Starting generation..."
-                                // AI call will be added later
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("Generate AI Music Video")
-                        }
-
-                        Text(text = "Status: $status")
                     }
-                }
+                )
             }
         }
     }
+}
 
-    companion object {
-        var selectedAudioUri: android.net.Uri? = null
+@Composable
+fun AppUI(onGenerate: (String) -> Unit) {
+    var prompt by remember { mutableStateOf("") }
+    var result by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("AI Music Video App") }
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .padding(20.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Top
+        ) {
+
+            OutlinedTextField(
+                value = prompt,
+                onValueChange = { prompt = it },
+                label = { Text("Enter a video prompt") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
+                onClick = {
+                    isLoading = true
+                    result = ""
+                    onGenerate(prompt)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Generate Video")
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            if (isLoading) {
+                CircularProgressIndicator()
+            }
+
+            if (result.isNotEmpty()) {
+                Text(result)
+            }
+        }
     }
 }
