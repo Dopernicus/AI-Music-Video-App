@@ -67,7 +67,7 @@ dependencies {
     implementation 'androidx.activity:activity-compose:1.8.2'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
 
-    // Networking
+    // Networking (for hitting AI APIs)
     implementation 'com.squareup.okhttp3:okhttp:4.11.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
@@ -75,6 +75,10 @@ dependencies {
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
 
-    // 💥 mobile-ffmpeg (working fork)
-    implementation 'com.github.tanersener:mobile-ffmpeg-full:4.4'
+    // --- Video processing placeholder ---
+    // mobile-ffmpeg / ffmpeg-kit binaries are retired and no longer reliably
+    // available from public repos, which is why CI failed. When you choose a
+    // replacement library or custom FFmpeg build, add its dependency here.
+    // implementation 'com.github.tanersener:mobile-ffmpeg-full:4.4'   // REMOVE
+    // implementation 'com.arthenica:ffmpeg-kit-full:4.5.LTS'         // REMOVE
 }
