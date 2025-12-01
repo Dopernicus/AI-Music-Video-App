@@ -1,9 +1,20 @@
-// Root build.gradle (PROJECT level)
-
-plugins {
-    id 'com.android.application' version '8.5.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
 }
 
-// No buildscript block needed
-// No allprojects block needed
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // Add other repos here later if needed
+        // maven { url "https://jitpack.io" }
+    }
+}
+
+rootProject.name = "AI-Music-Video-App"
+include ':app'
