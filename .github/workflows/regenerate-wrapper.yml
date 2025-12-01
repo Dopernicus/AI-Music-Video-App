@@ -4,22 +4,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  regenerate:
+  regen:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: temurin
-          java-version: 17
-      - name: Regenerate Gradle Wrapper
-        run: ./gradlew wrapper --gradle-version 8.5
-      - name: Commit wrapper files
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add gradle/wrapper/gradle-wrapper.jar
-          git add gradle/wrapper/gradle-wrapper.properties
-          git commit -m "Add regenerated gradle wrapper"
-          git push
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Generate wrapper
+      run: |
+        rm -rf gradle/wrapper/gradle-wrapper.jar
+        ./gradlew wrapper --gradle-version 8.5
+
+    - name: Commit wrapper
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add gradle/wrapper/gradle-wrapper.jar
+        git commit -m "Regenerate Gradle wrapper"
+        git push
