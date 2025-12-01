@@ -1,8 +1,10 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
+        maven { url "https://artifacts.arthenica.com/release" }
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -11,8 +13,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://artifacts.arthenica.com/release" }
+        maven { url "https://jitpack.io" }
     }
 }
 
 rootProject.name = "AI-Music-Video-App"
-include(":app")
+include ':app'
