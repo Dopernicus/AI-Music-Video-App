@@ -1,0 +1,27 @@
+name: Restore Gradle Wrapper
+
+on:
+  workflow_dispatch:
+
+jobs:
+  restore-wrapper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Decode Base64 gradle-wrapper.jar
+        run: |
+          base64 -d gradle/wrapper/gradle-wrapper.jar.base64 > gradle/wrapper/gradle-wrapper.jar
+
+      - name: Show wrapper jar details
+        run: ls -lh gradle/wrapper/
+
+      - name: Commit decoded jar
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add gradle/wrapper/gradle-wrapper.jar
+          git commit -m "Restore gradle-wrapper.jar from Base64" || echo "No changes"
+          git push
