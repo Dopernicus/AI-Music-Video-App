@@ -1,20 +1,28 @@
-pluginManagement {
+// Root-level build.gradle (Project build file)
+
+buildscript {
     repositories {
         google()
         mavenCentral()
-        gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
+    }
+    dependencies {
+        // Gradle Android plugin (matches AGP you're using in app module)
+        classpath 'com.android.tools.build:gradle:8.1.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0'
     }
 }
 
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+allprojects {
     repositories {
         google()
         mavenCentral()
-        // Add other repos here later if needed
-        // maven { url "https://jitpack.io" }
+        maven { url 'https://jitpack.io' }
     }
 }
 
-rootProject.name = "AI-Music-Video-App"
-include ':app'
+// This is REQUIRED to regenerate the wrapper and avoid your missing JAR error
+tasks.register("wrapper", Wrapper) {
+    gradleVersion = "8.5"
+    distributionType = Wrapper.DistributionType.BIN
+}
