@@ -4,24 +4,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  restore-wrapper:
+  restore:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Decode Base64 gradle-wrapper.jar
+      - name: Restore gradle-wrapper.jar
         run: |
-          base64 -d gradle/wrapper/gradle-wrapper.jar.base64 > gradle/wrapper/gradle-wrapper.jar
+          echo "${{ secrets.WRAPPER_JAR_BASE64 }}" | base64 --decode > gradle/wrapper/gradle-wrapper.jar
 
-      - name: Show wrapper jar details
-        run: ls -lh gradle/wrapper/
-
-      - name: Commit decoded jar
+      - name: Commit restored wrapper
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
           git add gradle/wrapper/gradle-wrapper.jar
-          git commit -m "Restore gradle-wrapper.jar from Base64" || echo "No changes"
+          git commit -m "Restore Gradle wrapper jar" || echo "No changes to commit"
           git push
