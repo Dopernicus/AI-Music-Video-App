@@ -1,15 +1,8 @@
-// Root-level build.gradle (Project build file)
-
 buildscript {
     repositories {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-    }
-    dependencies {
-        // Gradle Android plugin (matches AGP you're using in app module)
-        classpath 'com.android.tools.build:gradle:8.1.2'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0'
     }
 }
 
@@ -19,10 +12,4 @@ allprojects {
         mavenCentral()
         maven { url 'https://jitpack.io' }
     }
-}
-
-// This is REQUIRED to regenerate the wrapper and avoid your missing JAR error
-tasks.register("wrapper", Wrapper) {
-    gradleVersion = "8.5"
-    distributionType = Wrapper.DistributionType.BIN
 }
