@@ -14,26 +14,21 @@ jobs:
       - name: Remove old wrapper
         run: |
           rm -f gradle/wrapper/gradle-wrapper.jar
-          rm -f gradlew
-          rm -f gradlew.bat
+          rm -f gradle/wrapper/gradle-wrapper.properties
 
-      - name: Download Gradle
+      - name: Download Gradle 8.5
         run: |
-          wget https://services.gradle.org/distributions/gradle-8.5-bin.zip -O gradle.zip
-          unzip gradle.zip -d gradle_dist
+          mkdir gradle_dist
+          cd gradle_dist
+          curl -L -o gradle.zip https://services.gradle.org/distributions/gradle-8.5-bin.zip
+          unzip gradle.zip
 
-      - name: Generate new wrapper
+      - name: Generate wrapper
         run: |
-          cd gradle_dist/gradle-8.5
-          ./bin/gradle wrapper
-          cp -r ./gradle/wrapper ../../gradle/
-          cp ./gradlew ../../
-          cp ./gradlew.bat ../../
+          cd $GITHUB_WORKSPACE
+          ./gradlew wrapper --gradle-version 8.5
 
       - name: Commit wrapper
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add .
-          git commit -m "Regenerate Gradle wrapper"
-          git push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Regenerate Gradle wrapper"
