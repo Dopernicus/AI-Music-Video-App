@@ -1,15 +1,15 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-    }
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-    }
-}
+android {
+    namespace 'com.example.aimusicvideoapp'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.example.aimusicvideoapp"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName
