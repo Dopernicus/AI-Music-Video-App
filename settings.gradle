@@ -3,12 +3,11 @@ pluginManagement {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        gradlePluginPortal()
     }
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
@@ -17,4 +16,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "AI-Music-Video-App"
-include ':app'
+include(":app")
