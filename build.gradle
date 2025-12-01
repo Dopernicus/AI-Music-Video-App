@@ -13,3 +13,11 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
+
+tasks.register("regenerateWrapper") {
+    doLast {
+        exec {
+            commandLine "./gradlew", "wrapper", "--gradle-version", "8.5"
+        }
+    }
+}
