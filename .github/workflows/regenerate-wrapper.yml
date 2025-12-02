@@ -7,26 +7,26 @@ jobs:
   regen:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Download Gradle 8.5
         run: |
-          mkdir gradle_dist
-          cd gradle_dist
-          curl -L -o gradle.zip https://services.gradle.org/distributions/gradle-8.5-bin.zip
+          mkdir -p gradle_tmp
+          cd gradle_tmp
+          curl -L https://services.gradle.org/distributions/gradle-8.5-bin.zip -o gradle.zip
           unzip gradle.zip
 
-      - name: Generate wrapper using the downloaded Gradle
+      - name: Generate wrapper using Gradle 8.5
         run: |
-          cd gradle_dist/gradle-8.5
-          ./bin/gradle wrapper --gradle-version 8.5 --project-dir $GITHUB_WORKSPACE
+          ./gradle_tmp/gradle-8.5/bin/gradle wrapper --gradle-version 8.5
 
       - name: Commit wrapper files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
+          file_pattern: |
+            gradlew
+            gradlew.bat
+            gradle/wrapper/*
           commit_message: "Regenerated Gradle wrapper"
