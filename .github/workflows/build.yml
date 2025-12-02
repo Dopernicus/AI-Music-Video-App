@@ -30,6 +30,7 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x gradlew
 
+      # ----- Versioning (active, safe) -----
       - name: Set version name and code
         run: |
           VERSION_CODE=${{ github.run_number }}
@@ -38,12 +39,14 @@ jobs:
           echo "VERSION_NAME=$VERSION_NAME"
           ./gradlew -PversionCode=$VERSION_CODE -PversionName=$VERSION_NAME
 
+      # ----- Builds (active, safe) -----
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
 
       - name: Build Release APK & AAB
         run: ./gradlew assembleRelease bundleRelease --stacktrace
 
+      # ----- Artifact Uploads (active, safe) -----
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -62,11 +65,11 @@ jobs:
           name: Release-AAB
           path: app/build/outputs/bundle/release/*.aab
 
-      # ----------------------------
-      # OPTIONAL FEATURES (disabled)
-      # ----------------------------
+      # --------------------------------------------------
+      # OPTIONAL FEATURES — COMMENTED OUT FOR SECURITY
+      # --------------------------------------------------
 
-      # Create a GitHub Release (disabled)
+      # Create GitHub Release (requires higher-permission token)
       # - name: Create GitHub Release
       #   uses: softprops/action-gh-release@v1
       #   with:
@@ -76,7 +79,7 @@ jobs:
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Upload to Google Play (disabled)
+      # Upload to Google Play (requires service account JSON)
       # - name: Upload to Google Play
       #   uses: r0adkll/upload-google-play@v1
       #   with:
@@ -84,8 +87,23 @@ jobs:
       #     packageName: com.your.app
       #     releaseFile: app/build/outputs/bundle/release/*.aab
 
-      # Auto Tagging (disabled)
+      # Auto Tagging (requires write permissions)
       # - name: Tag Build
       #   run: |
+      #     git config user.name "github-actions"
+      #     git config user.email "actions@github.com"
       #     git tag v1.0.${{ github.run_number }}
       #     git push origin v1.0.${{ github.run_number }}
+
+      # Discord/Slack Notifications (require secret webhook URLs)
+      # - name: Send Notification
+      #   run: |
+      #     curl -X POST -H "Content-Type: application/json" \
+      #     -d '{"content":"New build created!"}' \
+      #     ${{ secrets.DISCORD_WEBHOOK }}
+
+      # Automatic Changelog Generation (safe)
+      # - name: Generate Changelog
+      #   run: |
+      #     echo "Changes:" > CHANGELOG.md
+      #     git log -1 --pretty=format:"%s" >> CHANGELOG.md
