@@ -61,3 +61,31 @@ jobs:
         with:
           name: Release-AAB
           path: app/build/outputs/bundle/release/*.aab
+
+      # ----------------------------
+      # OPTIONAL FEATURES (disabled)
+      # ----------------------------
+
+      # Create a GitHub Release (disabled)
+      # - name: Create GitHub Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: v1.0.${{ github.run_number }}
+      #     name: Release v1.0.${{ github.run_number }}
+      #     files: app/build/outputs/bundle/release/*.aab
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Upload to Google Play (disabled)
+      # - name: Upload to Google Play
+      #   uses: r0adkll/upload-google-play@v1
+      #   with:
+      #     serviceAccountJson: ${{ secrets.PLAYSTORE_SERVICE_ACCOUNT }}
+      #     packageName: com.your.app
+      #     releaseFile: app/build/outputs/bundle/release/*.aab
+
+      # Auto Tagging (disabled)
+      # - name: Tag Build
+      #   run: |
+      #     git tag v1.0.${{ github.run_number }}
+      #     git push origin v1.0.${{ github.run_number }}
