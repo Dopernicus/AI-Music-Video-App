@@ -3,6 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -11,10 +12,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // Add other repos here later if needed
-        // maven { url "https://jitpack.io" }
+        maven { url 'https://jitpack.io' }
     }
 }
 
 rootProject.name = "AI-Music-Video-App"
-include ':app'
+include(":app")
