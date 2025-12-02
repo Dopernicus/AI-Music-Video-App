@@ -22,6 +22,14 @@ jobs:
         run: |
           ./gradle_tmp/gradle-8.5/bin/gradle wrapper --gradle-version 8.5
 
+      - name: Commit generated wrapper JAR
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add gradle/wrapper/gradle-wrapper.jar
+          git commit -m "Add generated gradle-wrapper.jar" || echo "No changes to commit"
+          git push
+
       - name: Commit wrapper files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
