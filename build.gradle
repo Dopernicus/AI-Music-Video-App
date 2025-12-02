@@ -6,10 +6,7 @@ buildscript {
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-    }
+    // must be EMPTY to avoid breaking Gradle 8.5
 }
 
 tasks.register("regenerateWrapper") {
