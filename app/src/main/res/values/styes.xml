@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.AIMusicVideoApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/ic_launcher_background</item>
+        <item name="colorPrimaryVariant">@color/ic_launcher_background</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="android:statusBarColor">@color/ic_launcher_background</item>
+    </style>
+</resources>
